@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/web3d_backstage.iml" filepath="$PROJECT_DIR$/web3d_backstage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/web3d_backstage-grailsPlugins.iml" filepath="$PROJECT_DIR$/web3d_backstage-grailsPlugins.iml" />
     </modules>
   </component>
 </project>

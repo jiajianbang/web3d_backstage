@@ -226,12 +226,12 @@
 				<li>
 					<a href="${request.contextPath}/"><i class="fa fa-dashboard fa-fw"></i> 任务首页</a>
 				</li>
-				%{--<li>--}%
-					%{--<a href="${request.contextPath}/TagTask"><i class="fa fa-table fa-fw"></i> 任务管理</a>--}%
-				%{--</li>--}%
-				%{--<li>--}%
-					%{--<a href="${request.contextPath}/TagTask/createTagTask"><i class="fa fa-table fa-fw"></i> 创建任务流程</a>--}%
-				%{--</li>--}%
+				<li>
+					<a href="${request.contextPath}/TagTask"><i class="fa fa-table fa-fw"></i> 任务管理</a>
+				</li>
+				<li>
+					<a href="${request.contextPath}/TagTask/createTagTask"><i class="fa fa-table fa-fw"></i> 创建任务流程</a>
+				</li>
 
 			</ul>
 		</div>
