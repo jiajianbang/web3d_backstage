@@ -11,7 +11,7 @@ class TangkaReteuralController {
     * getTangkaList方法
     * */
     def getTangkaList(){
-        def tangkaList = PollsRetrievalStart.findAllByImage_md("2541d33dffad58a66ab1b4f533117574");
+        def tangkaList = PollsRetrievalStart.list();
         render(contentType: 'application/json'){
             [data:tangkaList]
         }

@@ -6,7 +6,7 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="index.html">人工智能标注任务管理系统</a>
+		<a class="navbar-brand" href="index.html">青海非遗后台管理系统</a>
 	</div>
 	<!-- /.navbar-header -->
 
@@ -231,6 +231,9 @@
 				</li>
 				<li>
 					<a href="${request.contextPath}/TagTask/createTagTask"><i class="fa fa-table fa-fw"></i> 创建任务流程</a>
+				</li>
+				<li>
+					<a href="${request.contextPath}/TangkaReteural/index"><i class="fa fa-table fa-fw"></i> 唐卡管理</a>
 				</li>
 
 			</ul>
