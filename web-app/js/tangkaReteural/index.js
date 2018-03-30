@@ -2,16 +2,15 @@
  * tagtaskmodel
  * @type {string}
  */
-var appid = "tagtaskmodel"
+var appid = "tangkaReturalmodel"
 window.appModels.push(appid)
 //
 var app = angular.module(appid, []);
-app.controller('tagTaskCtrl', function($scope,$http) {
+app.controller('tangkaReturalCtrl', function($scope,$http) {
 
-    $scope.searchValue = "";
+    $scope.id_value = "";
+    $scope.tangkaList = [];
 
-    $scope.tagTaskList = [];
-    $scope.updateId;
     $scope.pages;
     $scope.newPages;
     $scope.pageList = [];
@@ -20,20 +19,20 @@ app.controller('tagTaskCtrl', function($scope,$http) {
     ////*
     // 获取数据库表
     // *///
-    $scope.getTagTaskList= function (){
-        $http({method : 'POST',url : WEBROOT+'/TagTask/tagTaskList',params:{districtid:'test'},headers : window.utf8_headers})
+    $scope.getTangkaList= function (){
+        $http({method : 'POST',url : WEBROOT+'/TangkaReteural/getTangkaList',params:{districtid:'test'},headers : window.utf8_headers})
             .success(function(rtndata, status, headers, config){
-                $scope.tagTaskList = rtndata.data;
-                for (var i = 0 ; i<$scope.tagTaskList.length; i++){
-                    var dataLastUpdate = new Date($scope.tagTaskList[i].lastUpdated).format("yyyy-MM-dd hh:mm:ss")
-                    var createDate = new Date($scope.tagTaskList[i].dateCreated).format("yyyy-MM-dd hh:mm:ss")
-                    $scope.tagTaskList[i].dateCreatedTr = createDate;
-                    $scope.tagTaskList[i].lastUpdatedTr = dataLastUpdate;
+                $scope.tangkaList = rtndata.data;
+                for (var i = 0 ; i<$scope.tangkaList.length; i++){
+                    var createDate = new Date($scope.tangkaList[i].create_time).format("yyyy-MM-dd hh:mm:ss")
+                    $scope.tangkaList[i].dateCreatedTr = createDate;
+                    $scope.tangkaList[i].related_image = 'http://localhost:18080/tangka/'+$scope.tangkaList[i].related_image;
+                        // http://localhost:18080/tangka/A_01.jpg
                 }
 
                 $scope.pageSize = 10;
-                $scope.pages = Math.ceil($scope.tagTaskList.length / $scope.pageSize);
-                $scope.items = $scope.tagTaskList.slice(0, $scope.pageSize);
+                $scope.pages = Math.ceil($scope.tangkaList.length / $scope.pageSize);
+                $scope.items = $scope.tangkaList.slice(0, $scope.pageSize);
                 //alert($scope.pages);
                 $scope.newPages = $scope.pages > 10 ? 10: $scope.pages;
                 //alert($scope.newPages);
@@ -44,10 +43,56 @@ app.controller('tagTaskCtrl', function($scope,$http) {
             });
     }
 
+    /*
+    * 更改
+    * */
+    $scope.updateTangkaById=function (id,image_url,image_name) {
+        // alert(id)
+        $scope.id_value = id;
+        $scope.image_url = image_url;
+        $scope.image_name = image_name;
+        $('#myModal').modal('show')
+    }
+
+    /*
+    * 更新
+    * */
+    $scope.updateTangka=function () {
+        $('#myModal').modal('hide')
+        $http({method : 'POST',url : WEBROOT+'/TangkaReteural/updateTangka',params:{idValue:$scope.id_value,
+            image_name:$scope.image_name,image_url:$scope.image_url},headers : window.utf8_headers})
+            .success(function(rtndata, status, headers, config){
+                alert("ok")
+                $scope.getTangkaList();
+            })
+            .error(function(data, status, headers, config){
+
+            });
+    }
+    /*
+    * 删除
+    * */
+    $scope.delTagTaskById=function (id) {
+        $scope.del_id = id;
+        $('#myModalDel').modal('show')
+    }
+
+    $scope.deleteTangka=function () {
+        $('#myModalDel').modal('hide')
+        $http({method : 'POST',url : WEBROOT+'/TangkaReteural/deleteTangka',params:{idValue:$scope.del_id,
+        },headers : window.utf8_headers})
+            .success(function(rtndata, status, headers, config){
+                alert("ok")
+                $scope.getTangkaList();
+            })
+            .error(function(data, status, headers, config){
+
+            });
+    }
 
     //分页
     $scope.setData = function () {
-        $scope.items = $scope.tagTaskList.slice(($scope.pageSize * ($scope.selPage - 1)),
+        $scope.items = $scope.tangkaList.slice(($scope.pageSize * ($scope.selPage - 1)),
             ($scope.selPage * $scope.pageSize));//通过当前页数筛选出表格当前显示数据
     }
 
@@ -86,46 +131,8 @@ app.controller('tagTaskCtrl', function($scope,$http) {
     $scope.Next = function () {
         $scope.selectPage($scope.selPage + 1);
     };
-    //删除任务
-    $scope.delTagTaskById= function (id){
-        $http({method : 'POST',url : WEBROOT+'/TagTask/delTagTaskById',params:{taskId:id},headers : window.utf8_headers})
-            .success(function(rtndata, status, headers, config){
-               // $scope.tagTaskList.splice(id,1);
-                $scope.getTagTaskList();
 
-            })
-            .error(function(data, status, headers, config){
 
-            });
-    }
-    /*
-    * 更新表格内容，修改任务
-    * */
-    $scope.updateTagTaskById= function (id){
-        $http({method : 'POST',url : WEBROOT+'/TagTask/updateTagTaskById',params:{taskId:id},headers : window.utf8_headers})
-            .success(function(rtndata, status, headers, config){
-                // $scope.tagTaskList.splice(id,1);
-                $socpe.updateId = rthdata.data;
-                window.location.href = "${request.contextPath}/tagTask/updateTask"
-                //$scope.getTagTaskList();
-
-            })
-            .error(function(data, status, headers, config){
-
-            });
-    }
-    /*
-    *查找任务
-     */
-    $scope.findTagTaskByStr= function (str){
-        $http({method : 'POST',url : WEBROOT+'/TagTask/findTagTaskByStr',params:{searchStr:$scope.searchValue},headers : window.utf8_headers})
-            .success(function(rtndata, status, headers, config){
-             alert('find ok ')
-            })
-            .error(function(data, status, headers, config){
-                alert('error')
-            });
-    }
     /////////////////////////////////////////////////
     /*
     * 日期时间格式转换
@@ -152,6 +159,6 @@ app.controller('tagTaskCtrl', function($scope,$http) {
     }
 
     //getMethod
-    $scope.getTagTaskList();
+    $scope.getTangkaList();
 
 });

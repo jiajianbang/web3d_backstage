@@ -3,7 +3,7 @@
 <html lang="cn">
 <head>
 	<meta name="layout" content="admin"/>
-	<title>AI标记编排系统-任务管理</title>
+	<title>青海非物质文化遗产-管理系统</title>
 </head>
 
 <body>
@@ -55,8 +55,8 @@
 							<td>{{ itagTask.taskType }}</td>
 							<td>{{ itagTask.taskProgress }}</td>
 							<td>{{itagTask.createPerson}}</td>
-							<td>{{itagTask.dateCreated}}</td>
-							<td>{{itagTask.lastUpdated}}</td>
+							<td>{{itagTask.dateCreatedTr}}</td>
+							<td>{{itagTask.lastUpdatedTr}}</td>
 							<td class="center">
 								<a ng-click="delTagTaskById(itagTask.id)">删除</a>
 								<a ng-click="addTagTaskById(itagTask.id)">添加</a>
